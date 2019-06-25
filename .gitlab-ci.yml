@@ -1,0 +1,9 @@
+deploy:
+  environment: production
+  image: python:latest
+  variables:
+    S3_BUCKET_NAME
+  before_script:
+    - pip install awscli
+  script:
+    - aws s3 cp ./ s3://$S3_BUCKET_NAME/ --recursive --exclude "*" --include "index.html"
