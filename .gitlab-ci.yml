@@ -2,7 +2,7 @@ deploy:
   environment: production
   image: python:latest
   variables:
-    S3_BUCKET_NAME
+    S3_BUCKET_NAME: bulik.dev
   before_script:
     - pip install awscli
   script:
