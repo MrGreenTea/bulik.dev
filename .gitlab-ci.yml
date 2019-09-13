@@ -1,3 +1,25 @@
+build:
+  stage: build
+  image: node:12-slim
+  before_script:
+    - npm install -g html-minifier
+  script:
+    - html-minifier
+      --collapse-whitespace
+      --remove-comments
+      --remove-optional-tags
+      --remove-redundant-attributes
+      --remove-script-type-attributes
+      --remove-tag-whitespace
+      --use-short-doctype
+      --minify-css true
+      --minify-js true
+      --output index.mini.html
+      index.html
+  artifacts:
+    paths:
+      - index.mini.html
+
 deploy:
   stage: deploy
   environment: production
@@ -7,4 +29,5 @@ deploy:
   before_script:
     - pip install awscli
   script:
-    - aws s3 cp ./ s3://$S3_BUCKET_NAME/ --recursive --exclude "*" --include "index.html"  --acl public-read
+    - aws s3 cp index.mini.html s3://$S3_BUCKET_NAME/index.html --acl public-read
+    - aws s3 cp ./ s3://$S3_BUCKET_NAME/ --recursive --exclude "*" --include "*.png" --acl public-read
