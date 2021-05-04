@@ -31,3 +31,4 @@ deploy:
   script:
     - aws s3 cp index.mini.html s3://$S3_BUCKET_NAME/index.html --acl public-read
     - aws s3 cp ./ s3://$S3_BUCKET_NAME/ --recursive --exclude "*" --include "*.png" --acl public-read
+  needs: [build]
